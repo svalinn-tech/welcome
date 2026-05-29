@@ -1,0 +1,583 @@
+<!doctype html>
+<html style="height:100%" lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="theme-color" content="#2970FF"/>
+<link rel="shortcut icon" href="https://my.winwinbot.com/logo/favicon/favicon.ico">
+<title>WinWinBot</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#2970FF;--blue-dark:#1a56e8;--blue-light:#EEF3FF;
+  --green:#12B76A;--green-light:#ECFDF3;
+  --purple:#7C3AED;--orange:#F79009;--orange-light:#FFF6E8;
+  --red:#F04438;--gray:#667085;--gray-light:#F9FAFB;
+  --border:#E4E7EC;--text:#101828;--radius:12px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:var(--text);background:#F5F7FF;min-height:100%}
+body::-webkit-scrollbar{width:5px;background:none}
+body::-webkit-scrollbar-thumb{background-color:#c0c4cc}
+
+/* TABS */
+.tabs-bar{background:#fff;border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:4px}
+.tab-btn{display:flex;align-items:center;gap:8px;padding:14px 18px;font-size:14px;font-weight:500;color:var(--gray);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;text-decoration:none;transition:all .15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:600}
+
+/* CONTENT */
+.content{max-width:960px;margin:0 auto;padding:28px 20px 64px}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+@media(max-width:640px){.stats-row{grid-template-columns:1fr 1fr}}
+.stat-card{border-radius:var(--radius);padding:20px 20px 18px}
+.stat-card.blue{background:#EFF6FF;border:1px solid #BFDBFE}
+.stat-card.green{background:#ECFDF5;border:1px solid #A7F3D0}
+.stat-card.purple{background:#F5F3FF;border:1px solid #DDD6FE}
+.stat-card.orange{background:#FFF7ED;border:1px solid #FED7AA}
+.stat-label{font-size:13px;font-weight:600;margin-bottom:8px}
+.stat-card.blue .stat-label{color:#1D4ED8}
+.stat-card.green .stat-label{color:#065F46}
+.stat-card.purple .stat-label{color:#5B21B6}
+.stat-card.orange .stat-label{color:#92400E}
+.stat-value{font-size:26px;font-weight:800;line-height:1.2}
+.stat-card.blue .stat-value{color:#1D4ED8}
+.stat-card.green .stat-value{color:#065F46}
+.stat-card.purple .stat-value{color:#5B21B6}
+.stat-card.orange .stat-value{color:#92400E}
+.stat-rub{font-size:18px;font-weight:700}
+
+/* WELCOME */
+.welcome-banner{background:linear-gradient(135deg,#1a56e8 0%,#2970FF 60%,#4f90ff 100%);border-radius:var(--radius);padding:28px 32px;color:#fff;margin-bottom:24px;position:relative;overflow:hidden}
+.welcome-banner::before{content:"✦";position:absolute;right:32px;top:12px;font-size:70px;opacity:.07}
+.welcome-tag{background:rgba(255,255,255,.18);display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:500;margin-bottom:12px}
+.welcome-banner h2{font-size:22px;font-weight:800;margin-bottom:10px}
+.welcome-banner p{font-size:14px;line-height:1.65;opacity:.92;max-width:580px}
+.welcome-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .18s;text-decoration:none}
+.btn-white{background:#fff;color:var(--blue)}
+.btn-white:hover{background:#e8efff}
+.btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.5)}
+.btn-outline:hover{background:rgba(255,255,255,.12)}
+
+/* SECTION */
+.section{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:18px}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.section-title-row{display:flex;align-items:center;gap:10px}
+.section-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.icon-blue{background:var(--blue-light)}
+.icon-green{background:var(--green-light)}
+.icon-orange{background:var(--orange-light)}
+.section-title{font-size:16px;font-weight:700}
+.section-sub{font-size:12px;color:var(--gray);margin-top:2px}
+
+/* NOTICE */
+.notice{background:#FFFBEB;border:1px solid #FDE68A;border-radius:9px;padding:12px 16px;font-size:13px;color:#92400E;display:flex;gap:10px;margin-bottom:18px}
+.notice a{color:#92400E;font-weight:600;text-decoration:underline}
+
+/* PROMO */
+.promo-box{background:var(--blue-light);border:1.5px dashed var(--blue);border-radius:10px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.promo-code-val{font-size:28px;font-weight:800;color:var(--blue);letter-spacing:4px}
+.promo-meta{font-size:12px;color:var(--gray);margin-top:3px}
+.btn-copy{background:var(--blue);color:#fff;padding:8px 16px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:background .15s;white-space:nowrap}
+.btn-copy:hover{background:var(--blue-dark)}
+.btn-copy.copied{background:var(--green)}
+
+/* СОЗДАТЬ ПРОМОКОД */
+.promo-create-area{background:var(--gray-light);border:1.5px dashed var(--border);border-radius:10px;padding:18px 20px;margin-bottom:18px}
+.promo-create-title{font-size:13px;font-weight:600;color:#344054;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.promo-create-row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
+.promo-create-field{display:flex;flex-direction:column;gap:5px;flex:1;min-width:180px}
+.promo-create-field label{font-size:12px;font-weight:500;color:var(--gray)}
+.promo-create-field input{padding:9px 13px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-weight:600;letter-spacing:2px;text-transform:uppercase;outline:none;transition:border .15s}
+.promo-create-field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(41,112,255,.1)}
+.promo-hint{font-size:11px;color:var(--gray);margin-top:4px}
+.btn-generate{background:var(--green);color:#fff;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:background .15s;display:flex;align-items:center;gap:6px;height:40px;white-space:nowrap}
+.btn-generate:hover{background:#0da55f}
+.btn-generate:disabled{background:#9CA3AF;cursor:not-allowed}
+
+/* ПРОМОКОДЫ СПИСОК */
+.promos-list-wrap{margin-bottom:4px}
+.promos-list-label{font-size:13px;font-weight:600;color:#344054;margin-bottom:10px}
+.promos-list{display:flex;flex-direction:column;gap:8px}
+.promo-item{display:flex;align-items:center;justify-content:space-between;background:var(--gray-light);border:1px solid var(--border);border-radius:8px;padding:10px 16px;gap:10px;flex-wrap:wrap;transition:border .2s}
+.promo-item:hover{border-color:#93C5FD}
+.promo-item-code{font-size:16px;font-weight:700;color:var(--blue);letter-spacing:2px}
+.promo-item-meta{font-size:12px;color:var(--gray);margin-top:2px}
+.promo-item-right{display:flex;align-items:center;gap:8px}
+.badge-active{background:var(--green-light);color:var(--green);padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
+.btn-sm{background:#fff;border:1px solid var(--border);color:var(--gray);padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
+.btn-sm:hover{border-color:var(--blue);color:var(--blue)}
+
+/* LOCKED STATE */
+.locked-overlay{position:relative}
+.locked-notice{background:#F2F4F7;border:1px solid var(--border);border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:12px;font-size:13px;color:var(--gray);margin-bottom:8px}
+.lock-icon{font-size:20px;flex-shrink:0}
+
+/* REFLINKS */
+.reflinks{display:flex;flex-direction:column;gap:8px}
+.reflink-row{display:flex;align-items:center;gap:10px;background:var(--gray-light);border:1px solid var(--border);border-radius:8px;padding:10px 14px}
+.reflink-flag{font-size:18px;flex-shrink:0}
+.reflink-url{font-size:13px;color:var(--gray);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn-icon{background:#fff;border:1px solid var(--border);color:var(--gray);width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;flex-shrink:0;transition:all .15s}
+.btn-icon:hover{border-color:var(--blue);color:var(--blue)}
+
+/* УРОВНИ */
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+@media(max-width:640px){.levels{grid-template-columns:1fr}}
+.level-card{border:1.5px solid var(--border);border-radius:10px;padding:18px 16px;position:relative}
+.level-card.current{border-color:var(--blue);background:var(--blue-light)}
+.level-card.gold{border-color:var(--orange)}
+.level-badge-top{position:absolute;top:-10px;left:50%;transform:translateX(-50%);padding:2px 12px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap;color:#fff}
+.badge-current{background:var(--blue)}
+.badge-gold{background:var(--orange)}
+.level-emoji{font-size:22px;margin-bottom:6px}
+.level-name{font-size:12px;color:var(--gray);font-weight:500;margin-bottom:4px}
+.level-pct{font-size:30px;font-weight:800;color:var(--blue);line-height:1}
+.level-card.gold .level-pct{color:var(--orange)}
+.level-pct sup{font-size:14px;font-weight:700}
+.level-refs{font-size:12px;color:var(--gray);margin-top:4px;margin-bottom:10px}
+.level-perks{display:flex;flex-direction:column;gap:5px}
+.level-perk{font-size:12px;color:#344054;display:flex;gap:6px}
+.level-perk::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0}
+
+/* MULTI LEVEL */
+.multi-level{background:linear-gradient(135deg,#F0FDF4,#ECFDF3);border:1px solid #A7F3D0;border-radius:10px;padding:18px 20px;margin-bottom:16px}
+.ml-title{font-size:14px;font-weight:700;color:#065F46;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ml-rows{display:flex;flex-direction:column;gap:10px}
+.ml-row{display:flex;align-items:flex-start;gap:10px}
+.ml-num{width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.ml-text{font-size:13px;color:#065F46;line-height:1.55}
+.ml-text strong{color:#065F46}
+.ml-footnote{font-size:12px;color:#6B7280;margin-top:10px;padding-top:10px;border-top:1px solid #A7F3D0;font-style:italic}
+
+/* CONDITIONS */
+.conditions{background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:14px 18px;margin-bottom:0}
+.cond-title{font-size:13px;font-weight:700;color:#92400E;margin-bottom:8px}
+.cond-list{list-style:none;display:flex;flex-direction:column;gap:5px}
+.cond-list li{font-size:13px;color:#92400E;display:flex;gap:8px}
+.cond-list li::before{content:"•";flex-shrink:0}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:14px;padding-bottom:20px;position:relative}
+.step:last-child{padding-bottom:0}
+.step:not(:last-child)::after{content:"";position:absolute;left:17px;top:38px;bottom:0;width:2px;background:var(--border)}
+.step-num{width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1}
+.step-body h4{font-size:14px;font-weight:700;margin-bottom:3px;padding-top:6px}
+.step-body p{font-size:13px;color:var(--gray);line-height:1.5}
+
+/* ФОРМА */
+.form-note{background:var(--blue-light);border-left:3px solid var(--blue);padding:11px 14px;border-radius:0 8px 8px 0;font-size:13px;color:var(--blue);margin-bottom:18px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group.full{grid-column:1/-1}
+.divider-label{grid-column:1/-1;font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.6px;padding-top:4px;border-top:1px solid var(--border)}
+label{font-size:13px;font-weight:500;color:#344054}
+.req{color:var(--red)}
+input,select{width:100%;padding:9px 13px;border:1px solid var(--border);border-radius:8px;font-size:14px;color:var(--text);background:#fff;transition:border .15s;outline:none;-webkit-appearance:none}
+input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(41,112,255,.1)}
+input[readonly]{background:var(--gray-light);color:var(--gray);cursor:not-allowed}
+.btn-submit{width:100%;padding:12px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;transition:background .15s}
+.btn-submit:hover{background:var(--blue-dark)}
+.btn-submit:disabled{background:#93C5FD;cursor:not-allowed}
+.status-box{display:none;margin-top:14px;padding:13px 16px;border-radius:9px;font-size:14px;font-weight:600;align-items:center;gap:9px}
+.status-pending{background:#FFFBEB;color:#92400E;border:1px solid #FDE68A;display:flex}
+.status-approved{background:var(--green-light);color:#027A48;border:1px solid #6CE9A6;display:flex}
+
+footer{text-align:center;padding:20px;font-size:13px;color:var(--gray)}
+</style>
+</head>
+<body>
+
+<!-- TABS -->
+<div class="tabs-bar">
+  <a href="#" class="tab-btn active">ℹ️ О программе</a>
+  <a href="#" class="tab-btn">💳 Начисления</a>
+  <a href="#" class="tab-btn">👥 Рефералы</a>
+  <a href="#" class="tab-btn">📥 Выплаты</a>
+</div>
+
+<div class="content">
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="stat-card blue">
+      <div class="stat-label">Всего заработано</div>
+      <div class="stat-value">0,00 <span class="stat-rub">₽</span></div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-label">Текущий баланс</div>
+      <div class="stat-value">0,00 <span class="stat-rub">₽</span></div>
+    </div>
+    <div class="stat-card purple">
+      <div class="stat-label">Всего рефералов</div>
+      <div class="stat-value">0</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-label">Выплачено</div>
+      <div class="stat-value">0,00 <span class="stat-rub">₽</span></div>
+    </div>
+  </div>
+
+  <!-- WELCOME -->
+  <div class="welcome-banner">
+    <div class="welcome-tag">✦ Добро пожаловать!</div>
+    <h2>Вы в WinWinBot — начните зарабатывать уже сегодня</h2>
+    <p>Рады, что вы заинтересовались нашей партнёрской программой. Реферальная программа уже активна — делитесь ссылкой и получайте 25% с каждой оплаты. Для полного доступа к партнёрской программе пройдите короткую верификацию и воспользуйтесь всеми преимуществами на максимум. Инструкция ниже.</p>
+    <div class="welcome-actions">
+      <a href="#promo-section" class="btn btn-white">🔗 Мой промокод</a>
+      <a href="#partner-form" class="btn btn-outline">📋 Стать партнёром</a>
+    </div>
+  </div>
+
+  <!-- РЕФЕРАЛЬНАЯ ПРОГРАММА -->
+  <div class="section" id="promo-section">
+    <div class="section-head">
+      <div class="section-title-row">
+        <div class="section-icon icon-green">🔗</div>
+        <div>
+          <div class="section-title">Реферальная программа</div>
+          <div class="section-sub">Делитесь промокодом или ссылкой и зарабатывайте 25% с каждой оплаты</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notice">
+      <span>⚠️</span>
+      <div>Начисления идут сразу, но для получения выплат необходимо пройти верификацию и стать официальным партнёром (ООО, ИП или самозанятый). <a href="#partner-form">Пройти верификацию →</a></div>
+    </div>
+
+    <!-- АКТИВНЫЙ (ОСНОВНОЙ) ПРОМОКОД -->
+    <div style="font-size:13px;font-weight:600;color:#344054;margin-bottom:10px">Ваш основной промокод</div>
+    <div class="promo-box" style="margin-bottom:24px">
+      <div>
+        <div style="font-size:11px;color:var(--gray);font-weight:500;margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px">Промокод</div>
+        <div class="promo-code-val" id="activePromoVal">K5TFX</div>
+        <div class="promo-meta">Скидка 10% · Использований: 0</div>
+      </div>
+      <button class="btn-copy" onclick="copyText('K5TFX',this)">📋 Скопировать</button>
+    </div>
+
+    <!-- БЛОК ГЕНЕРАЦИИ НОВЫХ ПРОМОКОДОВ -->
+    <div style="font-size:13px;font-weight:600;color:#344054;margin-bottom:12px;padding-top:20px;border-top:1px solid var(--border)">
+      Генерация дополнительных промокодов
+    </div>
+
+    <!-- Заглушка до верификации -->
+    <div id="promoCreateLocked" class="locked-notice" style="margin-bottom:24px">
+      <span class="lock-icon">🔒</span>
+      <div>
+        <strong style="display:block;margin-bottom:2px;color:#344054">Создание своих промокодов недоступно</strong>
+        <span>Функционал откроется автоматически после прохождения верификации партнёра. <a href="#partner-form" style="color:var(--blue);font-weight:600">Заполнить анкету →</a></span>
+      </div>
+    </div>
+
+    <!-- Форма создания (показывается после верификации) -->
+    <div id="promoCreateActive" style="display:none; background:var(--gray-light); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:24px">
+      <div style="display:flex; gap:10px; align-items:flex-start; flex-wrap:wrap">
+        <div style="flex:1; min-width:200px">
+          <label style="font-size:12px; color:var(--gray); display:block; margin-bottom:6px">Введите свой код или сгенерируйте:</label>
+          <div style="display:flex; gap:8px">
+            <input type="text" id="newPromoInput" placeholder="PROMO2026" maxlength="10" 
+              style="flex:1; padding:10px 14px; border:1px solid var(--border); border-radius:8px; font-weight:700; text-transform:uppercase; letter-spacing:2px"
+              oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')">
+            <button class="btn-auto" onclick="autoCode()" title="Сгенерировать случайный код" style="padding:10px 14px; background:#fff; border:1px solid var(--border); border-radius:8px; font-weight:600; cursor:pointer; color:var(--text); display:flex; align-items:center; gap:6px">
+              🎲 Авто
+            </button>
+          </div>
+          <div id="promoCreateError" style="display:none; color:var(--red); font-size:12px; margin-top:6px"></div>
+        </div>
+        <div style="padding-top:24px">
+          <button onclick="createPromo()" style="padding:10px 20px; background:var(--green); color:#fff; border:none; border-radius:8px; font-weight:700; cursor:pointer; display:flex; align-items:center; gap:6px">
+            ➕ Добавить
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- КУДА ВСТАВЛЯЮТСЯ НОВЫЕ ПРОМОКОДЫ -->
+    <div style="font-size:13px;font-weight:600;color:#344054;margin-bottom:10px; display:flex; align-items:center; gap:8px">
+      Дополнительные промокоды <span class="promos-count" id="promosCount">0</span>
+    </div>
+    <div class="promos-list" id="promosList">
+      <!-- Сюда будут падать новые коды -->
+      <div id="emptyPromos" style="font-size:13px; color:var(--gray); padding:16px; text-align:center; background:#fff; border:1.5px dashed var(--border); border-radius:8px">
+        У вас пока нет дополнительных промокодов
+      </div>
+    </div>
+
+    <!-- РЕФЕРАЛЬНЫЕ ССЫЛКИ -->
+    <div style="font-size:13px;font-weight:600;color:#344054;margin:32px 0 10px;padding-top:20px;border-top:1px solid var(--border)">
+      Мои реферальные ссылки
+    </div>
+    <div class="reflinks">
+      <div class="reflink-row"><span class="reflink-flag">🇷🇺</span><span class="reflink-url" id="l1">https://my.winwinbot.com/ru/p/K5TFX</span><button class="btn-icon" onclick="copyEl('l1',this)">⧉</button></div>
+      <div class="reflink-row"><span class="reflink-flag">🇬🇧</span><span class="reflink-url" id="l2">https://my.winwinbot.com/en/p/K5TFX</span><button class="btn-icon" onclick="copyEl('l2',this)">⧉</button></div>
+      <div class="reflink-row"><span class="reflink-flag">🇪🇸</span><span class="reflink-url" id="l3">https://my.winwinbot.com/es/p/K5TFX</span><button class="btn-icon" onclick="copyEl('l3',this)">⧉</button></div>
+      <div class="reflink-row"><span class="reflink-flag">🇲🇽</span><span class="reflink-url" id="l4">https://my.winwinbot.com/mx/p/K5TFX</span><button class="btn-icon" onclick="copyEl('l4',this)">⧉</button></div>
+      <div class="reflink-row"><span class="reflink-flag">🇮🇳</span><span class="reflink-url" id="l5">https://my.winwinbot.com/hi/p/K5TFX</span><button class="btn-icon" onclick="copyEl('l5',this)">⧉</button></div>
+      <div class="reflink-row"><span class="reflink-flag">🇭🇺</span><span class="reflink-url" id="l6">https://my.winwinbot.com/hu/p/K5TFX</span><button class="btn-icon" onclick="copyEl('l6',this)">⧉</button></div>
+    </div>
+    <div style="font-size:12px;color:var(--gray);margin-top:12px;line-height:1.6">Делитесь этими ссылками с друзьями и коллегами. При регистрации по вашей ссылке автоматически применится ваш основной промокод.<br>Вы получите вознаграждение после оплаты подписки приглашённым пользователем.</div>
+  </div>
+
+  <!-- О ПАРТНЁРСКОЙ ПРОГРАММЕ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title-row">
+        <div class="section-icon icon-blue">💰</div>
+        <div>
+          <div class="section-title">О партнёрской программе</div>
+          <div class="section-sub">Прогрессивная система: чем больше рефералов — тем выше ваш процент</div>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-size:14px;color:var(--gray);line-height:1.65;margin-bottom:18px">
+      Рекомендуйте WinWinBot через персональный промокод или реферальную ссылку и получайте стабильный доход с каждой оплаты привлечённых клиентов. Ваша ставка растёт вместе с результатом: от 25% на старте до 35% когда вы в топе. Клиент платит каждый месяц — вы зарабатываете каждый месяц. Без потолка.
+    </p>
+
+    <div class="levels">
+      <div class="level-card current">
+        <div class="level-badge-top badge-current">Ваш уровень</div>
+        <div class="level-emoji">🟢</div>
+        <div class="level-name">Старт</div>
+        <div class="level-pct">25<sup>%</sup></div>
+        <div class="level-refs">1–9 активных рефералов</div>
+        <div class="level-perks">
+          <div class="level-perk">25% с каждой оплаты реферала</div>
+          <div class="level-perk">Реферал закрепляется на 6 мес.</div>
+          <div class="level-perk">Скидка 10% вашему рефералу</div>
+          <div class="level-perk">Личный кабинет с аналитикой</div>
+        </div>
+      </div>
+      <div class="level-card">
+        <div class="level-emoji">🔵</div>
+        <div class="level-name">Продвинутый</div>
+        <div class="level-pct">30<sup>%</sup></div>
+        <div class="level-refs">10–19 активных рефералов</div>
+        <div class="level-perks">
+          <div class="level-perk">30% с каждой оплаты реферала</div>
+          <div class="level-perk">+10% со второго уровня</div>
+          <div class="level-perk">Реферал закрепляется на 1 год</div>
+          <div class="level-perk">Грейс-период 2 месяца</div>
+        </div>
+      </div>
+      <div class="level-card gold">
+        <div class="level-badge-top badge-gold">🏆 Топ</div>
+        <div class="level-emoji">🏆</div>
+        <div class="level-name">Топ-партнёр</div>
+        <div class="level-pct">35<sup>%</sup></div>
+        <div class="level-refs">20+ активных рефералов</div>
+        <div class="level-perks">
+          <div class="level-perk">35% с каждой оплаты реферала</div>
+          <div class="level-perk">+10% со второго уровня</div>
+          <div class="level-perk">Реферал закрепляется на 1,5 года</div>
+          <div class="level-perk">Место на Витрине интеграторов</div>
+          <div class="level-perk">Приоритетная поддержка</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="multi-level">
+      <div class="ml-title">💡 Многоуровневый доход — деньги приходят, пока вы занимаетесь своим делом</div>
+      <div class="ml-rows">
+        <div class="ml-row">
+          <div class="ml-num">1</div>
+          <div class="ml-text"><strong>До 35% с прямых рефералов.</strong> Вы приводите клиента — он платит каждый месяц, вы получаете процент с каждой его оплаты. Пока он с WinWinBot — деньги капают на ваш счёт.</div>
+        </div>
+        <div class="ml-row">
+          <div class="ml-num">2</div>
+          <div class="ml-text"><strong>+10% со второго уровня</strong> — с уровня Продвинутый (10+ рефералов). Ваш реферал сам начинает приводить клиентов? Вы получаете 10% с их оплат тоже. Это настоящий пассивный доход: ваша сеть работает, вы зарабатываете.</div>
+        </div>
+        <div class="ml-row">
+          <div class="ml-num">3</div>
+          <div class="ml-text"><strong>+5% третий уровень</strong> — для топ-партнёров в персональном порядке. Когда рефералы ваших рефералов тоже начинают строить сети — вы участвуете в этом доходе.</div>
+        </div>
+      </div>
+      <div class="ml-footnote">* Второй уровень активируется автоматически с уровня Продвинутый. Третий уровень — индивидуально, обсуждается с менеджером программы.</div>
+    </div>
+
+    <div class="conditions">
+      <div class="cond-title">📋 Условия выплат</div>
+      <ul class="cond-list">
+        <li>Выплаты только для юридических лиц, ИП или самозанятых, зарегистрированных в РФ</li>
+        <li>Физлица и нерезиденты РФ могут использовать доход только для оплаты собственного тарифа</li>
+        <li>Отслеживается накрутка, боты и спам — при нарушениях выплаты отклоняются</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- КАК СТАТЬ ПАРТНЁРОМ -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title-row">
+        <div class="section-icon icon-orange">📋</div>
+        <div>
+          <div class="section-title">Как подключиться к партнёрской программе</div>
+          <div class="section-sub">Три шага до полного доступа</div>
+        </div>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body"><h4>Заполните анкету ниже</h4><p>Укажите реквизиты для выплат: ИНН, БИК, расчётный счёт и ссылку на мессенджер. Занимает 3 минуты.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body"><h4>Менеджер проверяет данные</h4><p>Мы проверяем реквизиты и связываемся с вами в течение 1 рабочего дня.</p></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body"><h4>Получаете полный партнёрский доступ</h4><p>Открывается создание промокодов, статистика по всем уровням, запрос выплат и личный менеджер.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ФОРМА -->
+  <div class="section" id="partner-form">
+    <div class="section-head">
+      <div class="section-title-row">
+        <div class="section-icon icon-blue">📝</div>
+        <div>
+          <div class="section-title">Анкета партнёра</div>
+          <div class="section-sub">Заполните реквизиты — мы начнём проверку</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-note">📌 Данные из вашей регистрации уже подставлены. Заполните только реквизиты для выплат.</div>
+    <form id="partnerForm" onsubmit="submitForm(event)">
+      <div class="form-grid">
+        <div class="form-group"><label>Имя</label><input type="text" value="Василий" readonly></div>
+        <div class="form-group"><label>Email</label><input type="email" value="vasily@example.com" readonly></div>
+        <div class="form-group"><label>Телефон</label><input type="tel" value="+7 900 123-45-67" readonly></div>
+        <div class="form-group"><label>Тип деятельности</label><input type="text" value="Интегратор / агентство" readonly></div>
+        <div class="form-group full"><label>Планируемое кол-во клиентов в месяц</label><input type="text" value="11–50" readonly></div>
+        <div class="divider-label">Реквизиты для выплат</div>
+        <div class="form-group"><label>ИНН <span class="req">*</span></label><input type="text" placeholder="Введите ИНН" required></div>
+        <div class="form-group"><label>БИК <span class="req">*</span></label><input type="text" placeholder="Введите БИК" required></div>
+        <div class="form-group"><label>Расчётный счёт (Р/С) <span class="req">*</span></label><input type="text" placeholder="20 цифр" required></div>
+        <div class="form-group"><label>Наименование банка <span class="req">*</span></label><input type="text" placeholder="Например: Сбербанк" required></div>
+        <div class="form-group full"><label>Корреспондентский счёт <span class="req">*</span></label><input type="text" placeholder="20 цифр" required></div>
+        <div class="form-group full"><label>Ссылка на мессенджер (WA / Max / TG) <span class="req">*</span></label><input type="text" placeholder="https://t.me/username" required></div>
+      </div>
+      <button type="submit" class="btn-submit" id="submitBtn">📨 Отправить заявку</button>
+      <div class="status-box status-pending" id="statusPending">🕐 Заявка на рассмотрении — ответим в течение 1 рабочего дня</div>
+      <div class="status-box status-approved" id="statusApproved">✅ Одобрено — партнёрский доступ активирован!</div>
+    </form>
+  </div>
+
+</div>
+
+<footer>© 2026 WinWinBot. Выплаты только на ООО / ИП / Самозанятых.</footer>
+
+<script>
+var isVerified = false; // false = не верифицирован | true = партнёр
+var adjectives = ['WIN','BOT','PRO','TOP','VIP','MAX','ACE','FLY','HIT','ROI'];
+
+function updateVerifiedState() {
+  if (isVerified) {
+    document.getElementById('promoCreateLocked').style.display = 'none';
+    document.getElementById('promoCreateActive').style.display = 'block';
+  } else {
+    document.getElementById('promoCreateLocked').style.display = 'flex';
+    document.getElementById('promoCreateActive').style.display = 'none';
+  }
+}
+
+function autoCode() {
+  var word = adjectives[Math.floor(Math.random() * adjectives.length)];
+  var num = Math.floor(Math.random() * 90 + 10);
+  document.getElementById('newPromoInput').value = word + num;
+}
+
+function createPromo() {
+  var input = document.getElementById('newPromoInput');
+  var errEl = document.getElementById('promoCreateError');
+  var code = input.value.trim();
+
+  if (!code || code.length < 3) {
+    errEl.textContent = 'Введите промокод — минимум 3 символа';
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  var list = document.getElementById('promosList');
+  var emptyMsg = document.getElementById('emptyPromos');
+  if (emptyMsg) emptyMsg.style.display = 'none';
+
+  var item = document.createElement('div');
+  item.className = 'promo-item new-item';
+  item.innerHTML =
+    '<div class="promo-item-left">' +
+    '<div class="promo-item-code">' + code + '</div>' +
+    '<div class="promo-item-meta">Скидка 10% · Использований: 0</div>' +
+    '</div>' +
+    '<div class="promo-item-right">' +
+    '<span class="badge-active">Активный</span>' +
+    '<button class="btn-sm" onclick="copyText(\'' + code + '\',this)">Копировать</button>' +
+    '</div>';
+
+  list.insertBefore(item, list.firstChild);
+
+  var count = list.querySelectorAll('.promo-item').length;
+  document.getElementById('promosCount').textContent = count;
+
+  setTimeout(function(){ item.classList.remove('new-item'); }, 2000);
+  input.value = '';
+}
+
+function copyText(text, btn) {
+  navigator.clipboard.writeText(text).catch(function(){});
+  var orig = btn.innerHTML;
+  btn.innerHTML = '✓ Скопировано';
+  btn.style.background = '#12B76A'; btn.style.color = '#fff'; btn.style.borderColor = '#12B76A';
+  setTimeout(function(){ btn.innerHTML = orig; btn.style.background=''; btn.style.color=''; btn.style.borderColor=''; }, 2000);
+}
+
+function copyEl(id, btn) {
+  var text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).catch(function(){});
+  var orig = btn.innerHTML;
+  btn.innerHTML = '✓';
+  btn.style.background = '#12B76A'; btn.style.color = '#fff'; btn.style.borderColor = '#12B76A';
+  setTimeout(function(){ btn.innerHTML = orig; btn.style.background=''; btn.style.color=''; btn.style.borderColor=''; }, 2000);
+}
+
+function submitForm(e) {
+  e.preventDefault();
+  document.getElementById('statusPending').style.display = 'flex';
+  var btn = document.getElementById('submitBtn');
+  btn.textContent = '✓ Заявка отправлена';
+  btn.disabled = true;
+  // Для демонстрации: одобряем заявку через 1.5 сек
+  setTimeout(function(){ approvePartner(); }, 1500);
+}
+
+function approvePartner() {
+  isVerified = true;
+  updateVerifiedState();
+  document.getElementById('statusPending').style.display = 'none';
+  document.getElementById('statusApproved').style.display = 'flex';
+}
+
+updateVerifiedState();
+</script>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+m[i].l=1*new Date();for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+ym(88888348,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:true,ecommerce:"dataLayer"});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/88888348" style="position:absolute;left:-9999px;" alt=""/></div></noscript>
+</body>
+</html>
