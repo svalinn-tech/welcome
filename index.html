@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html style="height:100%" lang="ru">
 <head>
@@ -108,6 +109,18 @@ body::-webkit-scrollbar-thumb{background-color:#c0c4cc}
 .promo-item-meta{font-size:12px;color:var(--gray);margin-top:2px}
 .promo-item-right{display:flex;align-items:center;gap:8px}
 .badge-active{background:var(--green-light);color:var(--green);padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600}
+
+.accordion-list{display:flex;flex-direction:column;gap:8px;margin-bottom:4px}
+.accordion-item{background:var(--gray-light);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.accordion-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;cursor:pointer;background:#fff}
+.accordion-head:hover{background:#F8FAFC}
+.accordion-title{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.accordion-code{font-size:15px;font-weight:700;color:var(--blue);letter-spacing:2px}
+.accordion-meta{font-size:12px;color:var(--gray)}
+.accordion-arrow{font-size:14px;color:var(--gray);transition:transform .2s}
+.accordion-item.open .accordion-arrow{transform:rotate(180deg)}
+.accordion-body{display:none;padding:0 12px 12px 12px;background:var(--gray-light)}
+.accordion-item.open .accordion-body{display:block}
 .btn-sm{background:#fff;border:1px solid var(--border);color:var(--gray);padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;transition:all .15s}
 .btn-sm:hover{border-color:var(--blue);color:var(--blue)}
 
@@ -310,6 +323,8 @@ footer{text-align:center;padding:20px;font-size:13px;color:var(--gray)}
       </div>
     </div>
 
+    
+
     <!-- РЕФЕРАЛЬНЫЕ ССЫЛКИ -->
     <div style="font-size:13px;font-weight:600;color:#344054;margin:32px 0 10px;padding-top:20px;border-top:1px solid var(--border)">
       Мои реферальные ссылки
@@ -323,6 +338,16 @@ footer{text-align:center;padding:20px;font-size:13px;color:var(--gray)}
       <div class="reflink-row"><span class="reflink-flag">🇭🇺</span><span class="reflink-url" id="l6">https://my.winwinbot.com/hu/p/K5TFX</span><button class="btn-icon" onclick="copyEl('l6',this)">⧉</button></div>
     </div>
     <div style="font-size:12px;color:var(--gray);margin-top:12px;line-height:1.6">Делитесь этими ссылками с друзьями и коллегами. При регистрации по вашей ссылке автоматически применится ваш основной промокод.<br>Вы получите вознаграждение после оплаты подписки приглашённым пользователем.</div>
+
+    <!-- ДОПОЛНИТЕЛЬНЫЕ РЕФЕРАЛЬНЫЕ ССЫЛКИ -->
+    <div style="font-size:13px;font-weight:600;color:#344054;margin:32px 0 10px;padding-top:20px;border-top:1px dashed var(--border); display:flex; align-items:center; gap:8px">
+      Мои дополнительные реферальные ссылки <span class="promos-count" id="additionalLinksCount">0</span>
+    </div>
+    <div id="additionalLinksList" class="accordion-list">
+      <div id="emptyAdditionalLinks" style="font-size:13px; color:var(--gray); padding:16px; text-align:center; background:#fff; border:1.5px dashed var(--border); border-radius:8px">
+        Дополнительные ссылки появятся здесь после создания нового промокода
+      </div>
+    </div>
   </div>
 
   <!-- О ПАРТНЁРСКОЙ ПРОГРАММЕ -->
@@ -496,6 +521,23 @@ function autoCode() {
   document.getElementById('newPromoInput').value = word + num;
 }
 
+
+function toggleLinks(btn) {
+  var linksDiv = btn.closest('.promo-item').querySelector('.promo-links');
+  if (linksDiv.style.display === 'none') {
+    linksDiv.style.display = 'block';
+    btn.innerHTML = '🔗 Ссылки ▲';
+  } else {
+    linksDiv.style.display = 'none';
+    btn.innerHTML = '🔗 Ссылки ▼';
+  }
+}
+
+function toggleAccordion(el) {
+  var item = el.closest('.accordion-item');
+  item.classList.toggle('open');
+}
+
 function createPromo() {
   var input = document.getElementById('newPromoInput');
   var errEl = document.getElementById('promoCreateError');
@@ -515,19 +557,59 @@ function createPromo() {
   var item = document.createElement('div');
   item.className = 'promo-item new-item';
   item.innerHTML =
-    '<div class="promo-item-left">' +
-    '<div class="promo-item-code">' + code + '</div>' +
-    '<div class="promo-item-meta">Скидка 10% · Использований: 0</div>' +
+    '<div class="promo-item-header">' +
+      '<div class="promo-item-left">' +
+        '<div class="promo-item-code">' + code + '</div>' +
+        '<div class="promo-item-meta">Скидка 10% · Использований: 0</div>' +
+      '</div>' +
+      '<div class="promo-item-right">' +
+        '<span class="badge-active">Активный</span>' +
+        '<button class="btn-sm" onclick="copyText(\'' + code + '\',this)">📋 Код</button>' +
+        '<button class="btn-sm" onclick="toggleLinks(this)" style="background:var(--blue-light); color:var(--blue); border-color:var(--blue-light)">🔗 Ссылки ▼</button>' +
+      '</div>' +
     '</div>' +
-    '<div class="promo-item-right">' +
-    '<span class="badge-active">Активный</span>' +
-    '<button class="btn-sm" onclick="copyText(\'' + code + '\',this)">Копировать</button>' +
+    '<div class="promo-links" style="display:none; width:100%; margin-top:4px; padding-top:12px; border-top:1px dashed var(--border)">' +
+      '<div style="font-size:12px; color:var(--gray); margin-bottom:10px; font-weight:500">Дополнительные реферальные ссылки для промокода <b>' + code + '</b>:</div>' +
+      '<div class="reflinks">' +
+        '<div class="reflink-row"><span class="reflink-flag">🇷🇺</span><span class="reflink-url">https://my.winwinbot.com/ru/p/' + code + '</span><button class="btn-icon" onclick="copyText(\'https://my.winwinbot.com/ru/p/' + code + '\',this)">⧉</button></div>' +
+        '<div class="reflink-row"><span class="reflink-flag">🇬🇧</span><span class="reflink-url">https://my.winwinbot.com/en/p/' + code + '</span><button class="btn-icon" onclick="copyText(\'https://my.winwinbot.com/en/p/' + code + '\',this)">⧉</button></div>' +
+        '<div class="reflink-row"><span class="reflink-flag">🇪🇸</span><span class="reflink-url">https://my.winwinbot.com/es/p/' + code + '</span><button class="btn-icon" onclick="copyText(\'https://my.winwinbot.com/es/p/' + code + '\',this)">⧉</button></div>' +
+        '<div class="reflink-row"><span class="reflink-flag">🇲🇽</span><span class="reflink-url">https://my.winwinbot.com/mx/p/' + code + '</span><button class="btn-icon" onclick="copyText(\'https://my.winwinbot.com/mx/p/' + code + '\',this)">⧉</button></div>' +
+        '<div class="reflink-row"><span class="reflink-flag">🇮🇳</span><span class="reflink-url">https://my.winwinbot.com/hi/p/' + code + '</span><button class="btn-icon" onclick="copyText(\'https://my.winwinbot.com/hi/p/' + code + '\',this)">⧉</button></div>' +
+        '<div class="reflink-row"><span class="reflink-flag">🇭🇺</span><span class="reflink-url">https://my.winwinbot.com/hu/p/' + code + '</span><button class="btn-icon" onclick="copyText(\'https://my.winwinbot.com/hu/p/' + code + '\',this)">⧉</button></div>' +
+      '</div>' +
     '</div>';
 
   list.insertBefore(item, list.firstChild);
 
   var count = list.querySelectorAll('.promo-item').length;
   document.getElementById('promosCount').textContent = count;
+
+  var additionalList = document.getElementById('additionalLinksList');
+  var emptyAdditional = document.getElementById('emptyAdditionalLinks');
+  if (emptyAdditional) emptyAdditional.style.display = 'none';
+  var accordion = document.createElement('div');
+  accordion.className = 'accordion-item';
+  accordion.innerHTML =
+    '<div class="accordion-head" onclick="toggleAccordion(this)">' +
+      '<div class="accordion-title">' +
+        '<span class="accordion-code">' + code + '</span>' +
+        '<span class="accordion-meta">Нажмите, чтобы открыть ссылки для этого промокода</span>' +
+      '</div>' +
+      '<span class="accordion-arrow">▼</span>' +
+    '</div>' +
+    '<div class="accordion-body">' +
+      '<div class="reflinks">' +
+        '<div class="reflink-row"><span class="reflink-flag">🇷🇺</span><span class="reflink-url">https://my.winwinbot.com/ru/p/' + code + '</span><button class="btn-icon" onclick="event.stopPropagation(); copyText(\'https://my.winwinbot.com/ru/p/' + code + '\',this)">⧉</button></div>' +
+        '<div class="reflink-row"><span class="reflink-flag">🇬🇧</span><span class="reflink-url">https://my.winwinbot.com/en/p/' + code + '</span><button class="btn-icon" onclick="event.stopPropagation(); copyText(\'https://my.winwinbot.com/en/p/' + code + '\',this)">⧉</button></div>' +
+        '<div class="reflink-row"><span class="reflink-flag">🇪🇸</span><span class="reflink-url">https://my.winwinbot.com/es/p/' + code + '</span><button class="btn-icon" onclick="event.stopPropagation(); copyText(\'https://my.winwinbot.com/es/p/' + code + '\',this)">⧉</button></div>' +
+        '<div class="reflink-row"><span class="reflink-flag">🇲🇽</span><span class="reflink-url">https://my.winwinbot.com/mx/p/' + code + '</span><button class="btn-icon" onclick="event.stopPropagation(); copyText(\'https://my.winwinbot.com/mx/p/' + code + '\',this)">⧉</button></div>' +
+        '<div class="reflink-row"><span class="reflink-flag">🇮🇳</span><span class="reflink-url">https://my.winwinbot.com/hi/p/' + code + '</span><button class="btn-icon" onclick="event.stopPropagation(); copyText(\'https://my.winwinbot.com/hi/p/' + code + '\',this)">⧉</button></div>' +
+        '<div class="reflink-row"><span class="reflink-flag">🇭🇺</span><span class="reflink-url">https://my.winwinbot.com/hu/p/' + code + '</span><button class="btn-icon" onclick="event.stopPropagation(); copyText(\'https://my.winwinbot.com/hu/p/' + code + '\',this)">⧉</button></div>' +
+      '</div>' +
+    '</div>';
+  additionalList.insertBefore(accordion, additionalList.firstChild);
+  document.getElementById('additionalLinksCount').textContent = additionalList.querySelectorAll('.accordion-item').length;
 
   setTimeout(function(){ item.classList.remove('new-item'); }, 2000);
   input.value = '';
