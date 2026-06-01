@@ -134,6 +134,65 @@ input[type="checkbox"] {
   flex: 1;
 }
 
+
+.verify-card {
+  border: 2px solid var(--blue) !important;
+  box-shadow: 0 12px 32px rgba(41, 112, 255, 0.1) !important;
+  position: relative;
+  overflow: hidden;
+  padding: 28px !important;
+}
+.verify-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--blue), #4F90FF);
+}
+.form-step {
+  grid-column: 1 / -1;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+  margin-top: 16px;
+  margin-bottom: 6px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.form-step-num {
+  background: var(--blue-light);
+  color: var(--blue);
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+.submit-btn-large {
+  width: 100%;
+  padding: 18px;
+  font-size: 16px;
+  font-weight: 800;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--blue) 0%, #4F90FF 100%);
+  box-shadow: 0 6px 16px rgba(41, 112, 255, 0.2);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.submit-btn-large:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(41, 112, 255, 0.3);
+}
+
 </style>
 </head>
 <body>
@@ -148,8 +207,8 @@ input[type="checkbox"] {
     </div>
     <nav class="side-nav">
       <div class="side-link active" data-page="about"><span class="side-ico">ℹ️</span><span>О программе</span></div>
-      <div class="side-link" data-page="referrals"><span class="side-ico">👥</span><span>Мои рефералы</span></div>
-      <div class="side-link" data-page="partners"><span class="side-ico">👥</span><span>Мои партнёры</span></div>
+      <div class="side-link" data-page="network"><span class="side-ico">👥</span><span>Моя партнерская сеть</span></div>
+      <div class="side-link" data-page="links"><span class="side-ico">🔗</span><span>Мои партнерские ссылки</span></div>
             <div class="side-link" data-page="finance"><span class="side-ico">💰</span><span>Финансы</span></div>
       <div class="side-link" data-page="payouts"><span class="side-ico">📥</span><span>Выплаты</span></div>
             <div class="side-link" data-page="academy"><span class="side-ico">📚</span><span>Обучение</span></div>
@@ -163,7 +222,7 @@ input[type="checkbox"] {
     <div class="topbar">
       <div class="top-title">
         <h1>Добро пожаловать, Василий</h1>
-        <p>Ваш статус: <strong id="headerStatusText">Заявка на рассмотрении</strong></p>
+        <p>Ваш статус: <span id="headerStatusText" style="display:inline-flex;align-items:center;gap:6px;background:#FFF7ED;border:1px solid #FED7AA;color:#B54708;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;margin-left:6px;box-shadow:0 1px 2px rgba(16,24,40,.04);">🕐 Заявка на рассмотрении</span></p>
       </div>
       <div class="top-user">
         <div class="user-pill">
@@ -190,8 +249,15 @@ input[type="checkbox"] {
         <div class="kpi-row grid-4">
           <div class="metric blue"><div class="metric-label">Всего заработано</div><div class="metric-value" id="mTotal">0,00 ₽</div></div>
           <div class="metric green"><div class="metric-label">Текущий баланс</div><div class="metric-value" id="mBalance">0,00 ₽</div></div>
-          <div class="metric purple"><div class="metric-label">Всего рефералов</div><div class="metric-value" id="mRefs">0</div></div>
+          <div class="metric purple"><div class="metric-label">Всего клиентов</div><div class="metric-value" id="mRefs">0</div></div>
           <div class="metric orange"><div class="metric-label">Выплачено</div><div class="metric-value" id="mPaid">0,00 ₽</div></div>
+        </div>
+
+        <div class="card" style="margin-bottom:18px">
+          <div class="section-head" style="margin-bottom:12px"><div><div class="section-title">Рост партнёрского уровня</div><div class="section-sub">Показываем, что нужно для перехода на следующий процент</div></div></div>
+          <div class="progress-top"><strong>Ваша ставка 25%</strong><span>До 30%: ещё 2 активных клиента</span></div>
+          <div class="progress"><div style="width:80%;background:linear-gradient(90deg,#2970FF,#4F90FF)"></div></div>
+          <div class="small" style="margin-top:8px">Приведите ещё 2 активных клиента, чтобы получать 30% со всех оплат.</div>
         </div>
 
         <div class="info-grid">
@@ -203,7 +269,7 @@ input[type="checkbox"] {
                   <div class="section-sub">До подключения доступен только ограниченный набор разделов</div>
                 </div>
               </div>
-              <div id="dashPending" class="notice">Сейчас ваша заявка находится на проверке. Пока заявка не одобрена, доступны только: О программе, Обучение, Промо-материалы и связь с менеджером. После подключения автоматически откроются разделы Мои рефералы, Мои партнёры и Финансы.</div>
+              <div id="dashPending" class="notice">Сейчас ваша заявка находится на проверке. Пока заявка не одобрена, доступны только: О программе, Обучение и связь с менеджером. После подключения автоматически откроются разделы Моя партнерская сеть, Финансы и Выплаты.</div>
               <div id="dashApproved" class="notice" style="display:none;background:#ECFDF3;border-color:#A7F3D0;color:#027A48">✅ Добро пожаловать в партнёрскую программу WinWinBot. Все разделы кабинета активированы. Менеджер свяжется с вами для знакомства и дальнейшего плана действий.</div>
               <div style="margin-top:16px" id="dashProgressWrap">
                 <div class="progress-top"><strong>Прогресс подключения</strong><span id="progressText">1 из 3 шагов</span></div>
@@ -214,10 +280,10 @@ input[type="checkbox"] {
             <div class="card" style="margin-top:14px">
               <div class="section-head"><div><div class="section-title">Что будет доступно после подключения</div><div class="section-sub">Ключевые возможности партнёрского кабинета</div></div></div>
               <div class="grid-2">
-                <div class="locked"><div style="font-size:22px">👥</div><div><strong>Мои партнёры</strong><div>Полный список привлечённых пользователей и партнёров, статусы, активности, переходы по уровням.</div></div></div>
-                <div class="locked"><div style="font-size:22px">💰</div><div><strong>Финансы</strong><div>История начислений, доступный баланс, выплаты и детали по каждой оплате реферала.</div></div></div>
-                <div class="locked"><div style="font-size:22px">🔗</div><div><strong>Промокоды и ссылки</strong><div>Основной промокод, дополнительные промокоды, реферальные ссылки по языкам и статистика по ним.</div></div></div>
-                <div class="locked"><div style="font-size:22px">💳</div><div><strong>Оплата за клиентов</strong><div>Возможность оплачивать подписку WinWinBot за своих клиентов через кабинет партнёра.</div></div></div>
+                <div class="locked"><div style="font-size:22px">👥</div><div><strong>Клиенты и суб-партнёры</strong><div>Вы увидите приглашённых вами клиентов и партнёров, которых подключили по вашей рекомендации. Это поможет строить свою партнёрскую сеть и зарабатывать не только на прямых подключениях.</div></div></div>
+                <div class="locked"><div style="font-size:22px">💰</div><div><strong>Финансы и выплаты</strong><div>Прозрачная история начислений, доступный баланс, выплаты и детализация дохода по каждому клиенту.</div></div></div>
+                <div class="locked"><div style="font-size:22px">🔗</div><div><strong>Именные промокоды</strong><div>Создавайте отдельные промокоды под статьи, вебинары, каналы и рекламные размещения. Клиент получает скидку, а вы — закрепление клиента за собой.</div></div></div>
+                <div class="locked"><div style="font-size:22px">💳</div><div><strong>Управление подписками</strong><div>Можно оплачивать подписки WinWinBot за своих клиентов прямо из кабинета партнёра.</div></div></div>
               </div>
             </div>
           </div>
@@ -225,7 +291,7 @@ input[type="checkbox"] {
           <div>
             <div class="card manager-card">
               <div class="section-head"><div><div class="section-title">Ваш менеджер</div><div class="section-sub">Поддержка и запуск партнёра</div></div></div>
-              <div style="font-size:15px;font-weight:700;margin-bottom:5px">Софья — менеджер партнёрской программы</div>
+              <div style="font-size:15px;font-weight:700;margin-bottom:5px">Юрий — менеджер партнёрской программы</div>
               <div style="font-size:13px;color:var(--gray);line-height:1.6;margin-bottom:14px">Поможет пройти верификацию, ответит на вопросы и подскажет, как начать привлекать клиентов.</div>
               <button class="btn btn-primary" style="width:100%;justify-content:center">💬 Написать менеджеру</button>
             </div>
@@ -243,93 +309,93 @@ input[type="checkbox"] {
         </div>
       
 
-        <div class="card" style="margin-top:14px">
-          <div class="section-head"><div><div class="section-title">Промокоды и ссылки</div><div class="section-sub">Основной промокод и реферальные ссылки доступны сразу</div></div></div>
-          <div class="notice">Делитесь своим промокодом уже сейчас. Дополнительные промокоды и расширенные функции откроются после одобрения верификации.</div>
-          <div style="font-size:13px;font-weight:700;color:#344054;margin:18px 0 10px">Ваш основной промокод</div>
-          <div class="card" style="background:var(--blue-light);border-style:dashed;border-width:1.5px;border-color:var(--blue);padding:18px;margin-bottom:18px">
-            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
-              <div><div style="font-size:11px;color:var(--gray);font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Промокод</div><div id="mainPromo" style="font-size:30px;font-weight:800;color:var(--blue);letter-spacing:4px">K5TFX</div><div style="font-size:12px;color:var(--gray);margin-top:4px">Скидка 10% · Использований: 0</div></div>
-              <button class="btn btn-primary" onclick="copyText('K5TFX', this)">📋 Скопировать</button>
+        <div class="card verify-card" style="margin-top:24px" id="verificationFormCard">
+          <div class="section-head" style="margin-bottom: 24px;">
+            <div style="display:flex; gap:16px; align-items:center;">
+              <div style="width:52px;height:52px;background:var(--blue-light);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;">📝</div>
+              <div>
+                <div class="section-title" style="font-size: 22px; margin-bottom:4px;">Анкета партнёра</div>
+                <div class="section-sub" style="font-size: 14px;">Заполните данные для верификации и подключения к партнёрской программе</div>
+              </div>
             </div>
           </div>
-          <div style="font-size:13px;font-weight:700;color:#344054;margin:22px 0 10px">Мои реферальные ссылки</div>
-          <div class="link-list">
-            <div class="link-row"><span class="link-flag">🇷🇺</span><span class="link-url" id="l1">https://my.winwinbot.com/ru/p/K5TFX</span><button class="icon-btn" onclick="copyEl('l1',this)">⧉</button></div>
-            <div class="link-row"><span class="link-flag">🇬🇧</span><span class="link-url" id="l2">https://my.winwinbot.com/en/p/K5TFX</span><button class="icon-btn" onclick="copyEl('l2',this)">⧉</button></div>
-            <div class="link-row"><span class="link-flag">🇪🇸</span><span class="link-url" id="l3">https://my.winwinbot.com/es/p/K5TFX</span><button class="icon-btn" onclick="copyEl('l3',this)">⧉</button></div>
-          </div>
-        </div>
-
-        <div class="card" style="margin-top:14px" id="verificationFormCard">
-          <div class="section-head"><div><div class="section-title">Анкета партнёра</div><div class="section-sub">Заполните данные для верификации и подключения к партнёрской программе</div></div></div>
           <form id="partnerForm" onsubmit="submitForm(event)">
             <div class="form-grid">
+
+              <div class="form-step"><div class="form-step-num">1</div> Контактные данные (из профиля)</div>
+
               <div class="field full"><label>Имя</label><input type="text" value="Василий" readonly></div>
               <div class="field"><label>Email</label><input type="email" value="vasily@example.com" readonly></div>
               <div class="field"><label>Телефон</label><input type="tel" value="+7 900 123-45-67" readonly></div>
               <div class="field"><label>Тип деятельности</label><input type="text" value="Интегратор / агентство" readonly></div>
               <div class="field full"><label>Планируемое кол-во клиентов в месяц</label><input type="text" value="11–50" readonly></div>
+
+              <div class="form-step"><div class="form-step-num">2</div> Юридические данные</div>
+
               <div class="field full"><label>Тип организации <span class="req">*</span></label><select id="orgType" onchange="updateOrgType()" required><option value="">— Выберите —</option><option value="ooo">ООО</option><option value="ip">ИП</option><option value="ip_npd">ИП на НПД</option><option value="smz">Самозанятый (СМЗ)</option></select></div>
               <div class="field full"><label>Наименование юр. лица <span class="req">*</span></label><input type="text" id="orgName" placeholder="ООО «...» или ИП Иванов И.И." required></div>
               <div class="field"><label>ИНН <span class="req">*</span></label><input type="text" id="inn" maxlength="12" placeholder="10 или 12 цифр" oninput="this.value=this.value.replace(/\D/g,'')" required></div>
               <div class="field"><label>ОГРН / ОГРНИП <span class="req">*</span></label><input type="text" id="ogrn" maxlength="15" placeholder="13 или 15 цифр" oninput="this.value=this.value.replace(/\D/g,'')" required></div>
               <div class="field full" id="legalAddressGroup"><label>Юридический адрес <span class="req">*</span></label><input type="text" id="legalAddress" placeholder="Для ИП и ООО"></div>
+
+              <div class="form-step"><div class="form-step-num">3</div> Банковские реквизиты и контакты</div>
+
               <div class="field"><label>БИК <span class="req">*</span></label><input type="text" id="bik" maxlength="9" placeholder="9 цифр" oninput="this.value=this.value.replace(/\D/g,'')" required></div>
               <div class="field"><label>Наименование банка <span class="req">*</span></label><input type="text" id="bankName" placeholder="Например: Сбербанк" required></div>
               <div class="field"><label>Р/С <span class="req">*</span></label><input type="text" id="rs" maxlength="20" placeholder="20 цифр" oninput="this.value=this.value.replace(/\D/g,'');validateRS(this)" required><div id="rsHint" class="small"></div><div id="rsError" class="small" style="display:none;color:var(--red)"></div></div>
               <div class="field"><label>Кор. счёт <span class="req">*</span></label><input type="text" id="ks" maxlength="20" placeholder="20 цифр" oninput="this.value=this.value.replace(/\D/g,'')" required></div>
               <div class="field full"><label>Юзернейм в мессенджере <span class="req">*</span></label><input type="text" id="messenger" placeholder="@username или ссылка" required></div>
               <div class="field full"><label>Сайт / ресурс для привлечения</label><input type="text" id="website" placeholder="https://site.ru или канал / аккаунт"></div>
+
               <div class="field full" id="docsGroup" style="display:none">
-                <label>Документы для СМЗ / ИП на НПД <span class="req">*</span></label>
-                <div class="grid-3">
+                <div class="form-step" style="border:none; margin-bottom: 0; padding-bottom: 0; margin-top: 10px;"><div class="form-step-num">📎</div> Документы для СМЗ / ИП на НПД <span class="req">*</span></div>
+                <div class="grid-3" style="margin-top: 12px;">
                   <div class="upload" onclick="document.getElementById('passportFile').click()"><input id="passportFile" type="file" accept="image/*,.pdf" style="display:none" onchange="showFileName(this,'passportLbl')"><span id="passportLbl">📎 Паспорт (разворот с фото)</span></div>
                   <div class="upload" onclick="document.getElementById('regFile').click()"><input id="regFile" type="file" accept="image/*,.pdf" style="display:none" onchange="showFileName(this,'regLbl')"><span id="regLbl">📎 Регистрация паспорта</span></div>
                   <div class="upload" onclick="document.getElementById('taxFile').click()"><input id="taxFile" type="file" accept="image/*,.pdf" style="display:none" onchange="showFileName(this,'taxLbl')"><span id="taxLbl">📎 Справка из «Мой налог»</span></div>
                 </div>
               </div>
             </div>
-            <div class="checks">
+
+            <div class="checks" style="background:#F8FAFC; border: 1px solid #E2E8F0; padding: 20px; margin-top: 24px;">
               <label class="check"><input type="checkbox" required><span>Даю согласие на обработку персональных данных по 152-ФЗ</span></label>
               <label class="check"><input type="checkbox" required><span>Принимаю политику конфиденциальности</span></label>
               <label class="check"><input type="checkbox" required><span>Принимаю оферту партнёрской программы</span></label>
               <label class="check"><input type="checkbox"><span>Согласен получать рекламные материалы</span></label>
             </div>
-            <button type="submit" class="btn btn-primary" style="margin-top:16px">📨 Отправить заявку на верификацию</button>
+
+            <button type="submit" class="submit-btn-large" style="margin-top:24px">
+              <span>📨</span> Отправить заявку на верификацию
+            </button>
             <div id="statusPending" class="status pending">🕐 Заявка на рассмотрении — ответим в течение 1 рабочего дня</div>
             <div id="statusApproved" class="status ok">✅ Добро пожаловать в партнёрскую программу WinWinBot</div>
           </form>
         </div>
 </section>
 
-      <section class="page" id="page-referrals">
+      
+
+      
+      <section class="page" id="page-network">
         <div class="card access-check" data-lock="true">
-          <div class="locked"><div style="font-size:22px">🔒</div><div><strong>Раздел «Мои рефералы» откроется после подключения</strong><div>Здесь будет список ваших рефералов, их статусы, регистрации и начисления. До подключения доступ закрыт.</div></div></div>
+          <div class="locked"><div style="font-size:22px">🔒</div><div><strong>Раздел «Моя партнерская сеть» откроется после подключения</strong><div>Здесь будет список ваших клиентов и партнёров, их статусы, регистрации и начисления. До подключения доступ закрыт.</div></div></div>
         </div>
         <div class="verified-only" style="display:none">
-          <div class="card">
-            <div class="section-head"><div><div class="section-title">Мои рефералы</div><div class="section-sub">Пользователи, зарегистрировавшиеся по вашей ссылке или промокоду</div></div></div>
+          <div class="card" style="margin-bottom:14px">
+            <div class="section-head"><div><div class="section-title">Мои клиенты</div><div class="section-sub">Клиенты, зарегистрировавшиеся по вашей ссылке или промокоду</div></div></div>
             <div class="table-wrap">
-              <table class="table"><thead><tr><th>Реферал</th><th>Дата регистрации</th><th>Статус</th><th>Оплата</th><th>Начислено</th></tr></thead><tbody>
+              <table class="table"><thead><tr><th>Клиент</th><th>Дата регистрации</th><th>Статус</th><th>Оплата</th><th>Начислено</th></tr></thead><tbody>
                 <tr><td>Алексей К.</td><td>12.05.2026</td><td><span class="badge paid">Оплатил</span></td><td>5 000 ₽</td><td style="font-weight:700;color:#027A48">+1 250 ₽</td></tr>
                 <tr><td>Марина С.</td><td>08.05.2026</td><td><span class="badge active">Активен</span></td><td>5 000 ₽</td><td style="font-weight:700;color:#027A48">+1 250 ₽</td></tr>
                 <tr><td>Дмитрий В.</td><td>01.05.2026</td><td><span class="badge reg">Зарегистрирован</span></td><td>—</td><td>—</td></tr>
               </tbody></table>
             </div>
           </div>
-        </div>
-      </section>
 
-      <section class="page" id="page-partners">
-        <div class="card access-check" data-lock="true">
-          <div class="locked"><div style="font-size:22px">🔒</div><div><strong>Раздел «Мои партнёры» откроется после подключения</strong><div>После верификации вы увидите своих партнёров, статусы и аналитику по их активности.</div></div></div>
-        </div>
-        <div class="verified-only" style="display:none">
           <div class="card">
             <div class="section-head"><div><div class="section-title">Мои партнёры</div><div class="section-sub">Партнёры и рефералы первого уровня</div></div></div>
             <div class="table-wrap">
-              <table class="table"><thead><tr><th>Партнёр</th><th>Дата регистрации</th><th>Статус</th><th>Рефералов</th><th>Оборот</th></tr></thead><tbody>
+              <table class="table"><thead><tr><th>Партнёр</th><th>Дата регистрации</th><th>Статус</th><th>Клиентов</th><th>Оборот</th></tr></thead><tbody>
                 <tr><td>Алексей К.</td><td>12.05.2026</td><td><span class="badge active">Активный</span></td><td>3</td><td>15 000 ₽</td></tr>
                 <tr><td>Марина С.</td><td>08.05.2026</td><td><span class="badge paid">Верифицирован</span></td><td>1</td><td>5 000 ₽</td></tr>
               </tbody></table>
@@ -337,6 +403,31 @@ input[type="checkbox"] {
           </div>
         </div>
       </section>
+      <section class="page" id="page-links">
+        <div class="card access-check" data-lock="true">
+          <div class="locked"><div style="font-size:22px">🔒</div><div><strong>Раздел «Мои партнерские ссылки» откроется после подключения</strong><div>Здесь будут ваши персональные промокоды и реферальные ссылки для привлечения клиентов. До подключения доступ закрыт.</div></div></div>
+        </div>
+        <div class="verified-only" style="display:none">
+          <div class="card">
+            <div class="section-head"><div><div class="section-title">Мои партнерские ссылки</div><div class="section-sub">Ваш основной промокод и ссылки для регистрации клиентов</div></div></div>
+            <div style="font-size:13px;font-weight:700;color:#344054;margin:18px 0 10px">Ваш основной промокод</div>
+            <div class="card" style="background:var(--blue-light);border-style:dashed;border-width:1.5px;border-color:var(--blue);padding:18px;margin-bottom:18px">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+                <div><div style="font-size:11px;color:var(--gray);font-weight:600;text-transform:uppercase;letter-spacing:.6px;margin-bottom:4px">Промокод</div><div id="mainPromo" style="font-size:30px;font-weight:800;color:var(--blue);letter-spacing:4px">K5TFX</div><div style="font-size:12px;color:var(--gray);margin-top:4px">Скидка 10% · Использований: 0</div></div>
+                <button class="btn btn-primary" onclick="copyText('K5TFX', this)">📋 Скопировать</button>
+              </div>
+            </div>
+            <div style="font-size:13px;font-weight:700;color:#344054;margin:22px 0 10px">Мои реферальные ссылки</div>
+            <div class="link-list">
+              <div class="link-row"><span class="link-flag">🇷🇺</span><span class="link-url" id="l1">https://my.winwinbot.com/ru/p/K5TFX</span><button class="icon-btn" onclick="copyEl('l1',this)">⧉</button></div>
+              <div class="link-row"><span class="link-flag">🇬🇧</span><span class="link-url" id="l2">https://my.winwinbot.com/en/p/K5TFX</span><button class="icon-btn" onclick="copyEl('l2',this)">⧉</button></div>
+              <div class="link-row"><span class="link-flag">🇪🇸</span><span class="link-url" id="l3">https://my.winwinbot.com/es/p/K5TFX</span><button class="icon-btn" onclick="copyEl('l3',this)">⧉</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
 
       
 
@@ -353,8 +444,8 @@ input[type="checkbox"] {
           </div>
           
           <div class="card">
-            <div class="section-head"><div><div class="section-title">История начислений</div><div class="section-sub">Подробная детализация по оплатам рефералов</div></div></div>
-            <div class="table-wrap"><table class="table"><thead><tr><th>Дата</th><th>Реферал</th><th>Оплата</th><th>%</th><th>Начислено</th></tr></thead><tbody>
+            <div class="section-head"><div><div class="section-title">История начислений</div><div class="section-sub">Подробная детализация по оплатам клиентов</div></div></div>
+            <div class="table-wrap"><table class="table"><thead><tr><th>Дата</th><th>Клиент</th><th>Оплата</th><th>%</th><th>Начислено</th></tr></thead><tbody>
               <tr><td>12.05.2026</td><td>Алексей К.</td><td>5 000 ₽</td><td>25%</td><td style="font-weight:700;color:#027A48">+1 250 ₽</td></tr>
               <tr><td>08.05.2026</td><td>Марина С.</td><td>5 000 ₽</td><td>25%</td><td style="font-weight:700;color:#027A48">+1 250 ₽</td></tr>
               <tr><td>01.05.2026</td><td>Марина С.</td><td>5 000 ₽</td><td>25%</td><td style="font-weight:700;color:#027A48">+1 250 ₽</td></tr>
@@ -425,7 +516,7 @@ input[type="checkbox"] {
           <div class="section-head"><div><div class="section-title">Связаться с менеджером</div><div class="section-sub">Оперативная помощь по запуску и развитию в партнёрской программе</div></div></div>
           <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:14px">
             <div>
-              <div style="font-size:18px;font-weight:800;margin-bottom:6px">Софья — менеджер партнёрской программы</div>
+              <div style="font-size:18px;font-weight:800;margin-bottom:6px">Юрий — менеджер партнёрской программы</div>
               <div style="font-size:14px;color:var(--gray);line-height:1.7;margin-bottom:16px">Поможет пройти верификацию, подскажет, как привлекать клиентов, разберёт кейсы и поможет выбрать следующий шаг после подключения.</div>
               <div class="grid-2">
                 <button class="btn btn-primary">💬 Telegram</button>
@@ -516,7 +607,10 @@ function approvePartner(){
   isVerified = true;
   document.getElementById('statusPending').style.display='none';
   document.getElementById('statusApproved').style.display='flex';
-  document.getElementById('headerStatusText').textContent = 'Подключен';
+  document.getElementById('headerStatusText').innerHTML = '✅ Подключен';
+  document.getElementById('headerStatusText').style.background = '#ECFDF3';
+  document.getElementById('headerStatusText').style.borderColor = '#A7F3D0';
+  document.getElementById('headerStatusText').style.color = '#027A48';
   document.getElementById('headerLevelBadge').textContent = 'Старт';
   document.getElementById('dashPending').style.display='none';
   document.getElementById('dashApproved').style.display='block';
